@@ -23,8 +23,6 @@ import random
 
 # ------- CAMERA -------
 camera = gamebox.Camera(400, 600)
-
-
 # creates camera to view the game, sets dimensions at 400 by 600
 
 # ------- QUALITY OF LIFE FUNCTIONS -------
@@ -68,8 +66,6 @@ def in_camera_range(sprite):
 # ------- GRAPHICS/ANIMATIONS -------
 # Player Sprites
 player = None
-
-
 # initializes a variable to store a player gamebox
 # note: there can only be one!
 
@@ -90,8 +86,8 @@ def make_player(color, size, hp):
     player.bullet_timer = 0  # initializes a value for a timer to space bullets apart
     player.hurt_timer = 0  # initializes a value for a timer for invincibility frames
     player.power_up_timer = 0  # initializes a value for a timer for certain power-ups
-    player.score = 0  # initializes a value to store player's score
-    player.score_multiplier = 1  # initializes a value for a score multiplier that increases for each enemy killed
+    player.score = 0    # initializes a value to store player's score
+    player.score_multiplier = 1     # initializes a value for a score multiplier that increases for each enemy killed
     # and resets when hit by an enemy
     player.score_saved = False  # initializes a boolean to record whether the player's score has been saved
 
@@ -103,8 +99,6 @@ enemies = {
     "basic": [],
     "mover": []
 }
-
-
 # initializes an empty dict to store list of gameboxes for each kind of enemy
 
 
@@ -183,15 +177,15 @@ def make_mover_enemy(x, y, hp=1, x_amplitude=60, y_amplitude=60, x_period=120, y
     """
     make_enemy("mover", x, y, 30, 30, hp)
     enemies["mover"][-1].x_move_timer = 0  # initializes a value for timer to dictate x behavior
-    enemies["mover"][-1].y_move_timer = 0  # initializes a similar value for a timer to dictate y behavior
-    enemies["mover"][-1].x_amplitude = x_amplitude  # initializes a value for amplitude of motion
-    enemies["mover"][-1].x_period = x_period  # initializes value for frequency of motion
-    enemies["mover"][-1].x_phase = x_phase  # initializes a value for phase of motion
+    enemies["mover"][-1].y_move_timer = 0   # initializes a similar value for a timer to dictate y behavior
+    enemies["mover"][-1].x_amplitude = x_amplitude   # initializes a value for amplitude of motion
+    enemies["mover"][-1].x_period = x_period    # initializes value for frequency of motion
+    enemies["mover"][-1].x_phase = x_phase      # initializes a value for phase of motion
     enemies["mover"][-1].y_amplitude = y_amplitude  # initializes a value for amplitude of motion
     enemies["mover"][-1].y_period = y_period  # initializes value for frequency of motion
     enemies["mover"][-1].y_phase = y_phase  # initializes a value for phase of motion
-    enemies["mover"][-1].x_init = x  # initializes an attribute for initial x position
-    enemies["mover"][-1].y_init = y  # initializes an attribute for initial y position
+    enemies["mover"][-1].x_init = x     # initializes an attribute for initial x position
+    enemies["mover"][-1].y_init = y     # initializes an attribute for initial y position
     # note that the defaults make the mover go in small circles
 
 
@@ -211,8 +205,6 @@ def make_climber_enemy(x, y, hp=1, amplitude=60, period=120, phase=0):
 projectiles = {
     "player bullet": []
 }
-
-
 # initializes an empty dictionary to store list of gameboxes for each kind of projectile
 
 
@@ -269,8 +261,11 @@ def make_player_bullet():
     make_projectile("player bullet", player.x, player.y, bullet_color, 5, speedy=bullet_speedy, pierce=bullet_pierce)
 
 
+# may also make different types if I have time
+# e.g. rockets that do AoE damage, homing missiles, laser beams, etc.
+
 # Collectibles
-# power-ups to health, speed, power, dropped by enemies when killed
+# power-ups to health, speed, power, dropped by enemies when killed; may also increase score
 # initializes an empty dict of lists to store power-up gameboxes
 power_ups = {
     "health": [],
@@ -497,8 +492,7 @@ def make_scoreboard():
     try:
         scoreboard = gamebox.from_text(0, 0, "Score: " + str(int(player.score)), 30, "white")
         # creates a text box displaying the player's score
-        multiplier = gamebox.from_text(0, 0, "Multiplier: " + str(int(100 * player.score_multiplier) / 100) + "x", 30,
-                                       "white")
+        multiplier = gamebox.from_text(0, 0, "Multiplier: " + str(int(100 * player.score_multiplier) / 100) + "x", 30, "white")
         # creates a text box displaying the player's score multiplier to the nearest hundredth
     except:
         scoreboard = gamebox.from_text(0, 0, "Score: 0", 30, "white")
@@ -568,6 +562,13 @@ def make_game_over():
     # adds element to HUD to be drawn
 
 
+# Additional lives may also be listed as "level restarts"
+# and a score board may also be added in the top left
+# with high score displayed at the top (basically like galaga)
+
+# if additional bullet types are included, they will also be listed
+# in the bottom right
+
 # ------- START SCREEN -------
 # creates a start screen with game name, student names (and IDs), and basic game instructions
 game_name = gamebox.from_text(camera.x, camera.y - 120, "SUPER SPACE SHOOT", 48, "white")
@@ -619,11 +620,11 @@ def level_select(keys):
         test_level()  # loads player, enemies, and other relevant assets for a test level
         curr_level = "TEST"  # sets curr_level to test
     elif pygame.K_1 in keys:
-        level_one()  # loads level 1
-        curr_level = "1"  # sets curr_level to 1
+        level_one()     # loads level 1
+        curr_level = "1"    # sets curr_level to 1
     elif pygame.K_2 in keys:
-        level_two()  # loads level 2
-        curr_level = "2"  # sets curr_level to 2
+        level_two()     # loads level 2
+        curr_level = "2"    # sets curr_level to 2
 
 
 def test_level():
@@ -669,7 +670,7 @@ def level_one():
     make_climber_enemy(350, -950, 1, 100, phase=90)
     # fun with different phases
     for i in range(0, 120, 30):
-        make_mover_enemy(200, -1200, 1, x_amplitude=100, x_phase=i, y_amplitude=100, y_phase=i + 30)
+        make_mover_enemy(200, -1200, 1, x_amplitude=100, x_phase=i, y_amplitude=100, y_phase=i+30)
     # enemies kind of move in a circle
 
     # screen 3: -1200 - -1800: fun with higher hp enemies
@@ -734,20 +735,20 @@ def level_two():
 
     # screen 1: 0 - -600: fun with circles!!!
     for i in range(0, 120, 15):
-        make_mover_enemy(100, -200, 3, x_amplitude=50, x_phase=i, y_amplitude=50, y_phase=i + 30)
-        make_mover_enemy(300, -200, 1, x_amplitude=50, x_phase=i, y_amplitude=50, y_phase=i + 30)
+        make_mover_enemy(100, -200, 3, x_amplitude=50, x_phase=i, y_amplitude=50, y_phase=i+30)
+        make_mover_enemy(300, -200, 1, x_amplitude=50, x_phase=i, y_amplitude=50, y_phase=i+30)
     # slow circles to start
     make_speed_power_up(100, -200)
     # speed power-up in the yellow circle
     for i in range(0, 96, 12):
-        make_mover_enemy(100, -400, 1, 50, 50, 96, 96, x_phase=i, y_phase=i + 24)
-        make_mover_enemy(300, -400, 3, 50, 50, 96, 96, x_phase=i, y_phase=i + 24)
+        make_mover_enemy(100, -400, 1, 50, 50, 96, 96, x_phase=i, y_phase=i+24)
+        make_mover_enemy(300, -400, 3, 50, 50, 96, 96, x_phase=i, y_phase=i+24)
     # faster circles
     make_rapid_fire_power_up(300, -400)
     # rapid fire power-up in the yellow circle
     for i in range(0, 80, 10):
-        make_mover_enemy(100, -600, 3, 50, 50, 80, 80, x_phase=i, y_phase=i + 20)
-        make_mover_enemy(300, -600, 1, 50, 50, 80, 80, x_phase=i, y_phase=i + 20)
+        make_mover_enemy(100, -600, 3, 50, 50, 80, 80, x_phase=i, y_phase=i+20)
+        make_mover_enemy(300, -600, 1, 50, 50, 80, 80, x_phase=i, y_phase=i+20)
     # and they get even faster, sheesh
     make_super_power_up(100, -600)
     # super power-up in the yellow circle
@@ -758,11 +759,11 @@ def level_two():
         make_climber_enemy(i + 30, -1000, 3, 200, phase=30)
 
     for i in range(0, 6):
-        make_slider_enemy(200, -800 - 60 * i, 1, 200, phase=i * 20)
+        make_slider_enemy(200, -800 - 60 * i, 1, 200, phase=i*20)
     # combines climbers and sliders
 
     # screen 3: -1200 - -1800: choices, choices, choices
-    for i in range(60, camera.width - 45, 30):
+    for i in range(60, camera.width-45, 30):
         for j in range(-1300, -1700, -30):
             make_basic_enemy(i, j, 5)
     # yellow barrier
@@ -780,13 +781,12 @@ def level_two():
     # lots of nice green
 
     for i in range(0, 10):
-        make_slider_enemy(200, -1800 - 60 * i, 25, 200, phase=12 * i)
+        make_slider_enemy(200, -1800 - 60 * i, 25, 200, phase=12*i)
     # lots of not nice cyan
 
     # screen 5: -2400 - 3200: Chaos
     for i in range(0, 20):
-        make_mover_enemy(200, -2600 - 30 * i, 6, 200 * i // 10, 200 + i, 120 - i, 120 + i, (120 - i) // 14,
-                         (120 + i) // 14)
+        make_mover_enemy(200, -2600 - 30 * i, 6, 200 * i // 10, 200 + i, 120 - i, 120 + i, (120 - i) // 14, (120 + i) // 14)
         # makes a cool pattern, plug it into a graph if you have time later
 
 
@@ -815,7 +815,7 @@ def get_high_score():
     :return: save high score as an int for the level
     """
     try:
-        scores = {}  # initializes a dict to store scores
+        scores = {}     # initializes a dict to store scores
         with open("super_space_shoot_scores.txt", "r") as f:
             # opens the file to read if it exists
             for line in f.readlines():
@@ -849,7 +849,7 @@ def get_high_score():
 
 # ------- INITIAL CONDITIONS --------
 game_on = False  # keeps the game from turning on
-curr_level = ""  # initializes a variable to store current level as a string
+curr_level = ""   # initializes a variable to store current level as a string
 level_high_score = 0  # initializes an int to store the level high score
 # so the save file doesn't have to be constantly read
 
@@ -949,11 +949,11 @@ def tick(keys):
         if camera.mouseclick:
             # when mouse is clicked
             if player.bullet_timer % player_fire_rate:
-                # if the current timer is not divisible by 10
+                # if the current timer is not divisible by 5
                 player.bullet_timer += 1
                 # add one to timer
             else:
-                # if the current timer is divisible by 10
+                # if the current timer is divisible by 5
                 make_player_bullet()
                 # make a bullet
                 player.bullet_timer += 1
@@ -961,8 +961,10 @@ def tick(keys):
         else:
             player.bullet_timer = 0
             # sets timer to zero when mouse is not clicked
-        # if you hold down the mouse, the ship fires a bullet every 10 frames
+        # if you hold down the mouse, the ship fires a bullet every five frames
         # but if you mash the mouse button you can shoot more
+
+        # also P for pausing the game
 
     # ------- BULLET BEHAVIOR ---------
     # defines relevant projectile behavior for all projectiles made
@@ -997,6 +999,7 @@ def tick(keys):
                 # if the health of any enemy drops at or below 0
                 make_random_power_up(enemy.x, enemy.y)
                 # makes a random power up drop from the enemy when killed
+                # some destruction animation might play
                 enemy_kind.remove(enemy)  # the enemy is destroyed
                 if player:
                     # only occurs if the player exists
@@ -1025,7 +1028,17 @@ def tick(keys):
             # resets move timer after reaching the period so we don't have to store so much data
     # moves side to side sinusoidally with the power of math
 
+    # tougher enemies may move and shoot more often
+
+    # boss enemies will stay in place at the top and shoot more bullets
+
     # ----- COLLISION DETECTION -----
+    # if an enemy bullet collides with the player
+    # the bullet is destroyed and the player takes damage
+    # if the player is out of HP, the player explodes
+    # and level restarts if they have lives
+    # if no lives, game over
+
     if player:
         # only occurs if player exists
 
@@ -1150,6 +1163,7 @@ def tick(keys):
             element.y -= scroll_speed
         for indicator in power_up_indicators:
             indicator.y -= scroll_speed
+
     # moves the camera, player, HUD Elements and power-up indicators up
 
     # ---- CHECKING FOR WIN ----
